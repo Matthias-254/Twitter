@@ -49,12 +49,12 @@ jobs:
         run: php artisan serve
 
         - name: Install Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '16'
+  uses: actions/setup-node@v2
+  with:
+    node-version: '18' # Ensure Node.js 17 or higher
 
-      - name: Install NPM Dependencies
-        run: npm install
+- name: Install NPM Dependencies
+  run: npm install
 
-      - name: Build Assets
-        run: npm run build
+- name: Build Assets
+  run: npm run build
