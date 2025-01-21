@@ -28,6 +28,10 @@ jobs:
         node-version: '16'
 
     - name: Install NPM Dependencies
+      run: npm install
+
+
+    - name: Install NPM Dependencies
       run: npm run build  
     
     - name: Synchronize Files To Server
