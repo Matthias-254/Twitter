@@ -31,6 +31,7 @@
         #content{
             font-size: 1.1rem;
             margin-bottom: 10px;
+            text-align: center;
         }
         #date{
             font-size: 0.9rem;
@@ -50,10 +51,10 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @foreach ($posts as $post)
-                        <img src="{{ URL($post->image_path) }}" alt="News logo">
+                        <p>{{$post->poster->name}} • {{$post->created_at->format('H\ui -\ d/m/y')}}</p>
                         <h3>{{$post->title}}</h3>
                         <p id="content">{{$post->content}}</p>
-                        <p id="date">Gepost op {{$post->created_at->format('d/m/y \o\m H:i')}}</p>
+                        <img src="{{ URL($post->image_path) }}" alt="News logo">
                     @endforeach
                 </div>
             </div>
