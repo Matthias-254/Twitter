@@ -11,12 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-      with:
-        php-version: '8.2' # Updated to match your composer.json
     - uses: actions/checkout@v4
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+    - name: Ensure .env File Exists
+      run: |
+        if [ ! -f .env ]; then
+          if [ -f .env.example ]; then
+            cp .env.example .env
+          else
+            echo "Missing .env.example file!"
+            exit 1
+          fi
+        fi
     - name: Install Dependencies
       run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
     - name: Generate key
