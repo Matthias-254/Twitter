@@ -17,6 +17,7 @@ class PostAdd extends Seeder
             'title' => 'Welcome to Twitter!',
             'content' => 'The not official Twitter page.',
             'image_path' => 'https://www.marketingfacts.nl/wp-content/uploads/images/imagesblog/f1b5lfuzmwvzs7nslwbn.jpg',
+            'user_id' => 1,
         ]);
     }
 }
