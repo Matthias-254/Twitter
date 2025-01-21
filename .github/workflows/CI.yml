@@ -42,6 +42,10 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           TARGET: ${{ secrets.REMOTE_PATH }}
+        with:
+          REMOTE_HOST: ''
+          REMOTE_USER: ''
+          SSH_PRIVATE_KEY: ''
 
       - name: Run Remote/Artisan Commands
         uses: easingthemes/ssh-deploy@v2.1.1
@@ -59,3 +63,7 @@ jobs:
             php artisan route:cache
             php artisan view:cache
             php artisan queue:restart
+        with:
+          REMOTE_HOST: ''
+          REMOTE_USER: ''
+          SSH_PRIVATE_KEY: ''
