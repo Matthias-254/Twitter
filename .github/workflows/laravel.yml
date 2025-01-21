@@ -17,7 +17,6 @@ jobs:
         with:
           php-version: '8.2'
 
-      # Ensure we have a .env file (creates it from .env.example if missing)
       - name: Ensure .env File Exists
         run: |
           if [ ! -f .env ]; then
