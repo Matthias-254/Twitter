@@ -18,5 +18,12 @@ class UserAdd extends Seeder
             'email' => 'john@ehb.be',
             'password' => Hash::make('password'),
         ]);
+
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@ehb.be',
+            'password' => Hash::make('password'),
+            'usertype' => 'admin',
+        ]);
     }
 }
