@@ -25,7 +25,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'  # Updated to Node.js version 18
+          node-version: '18'  # Update to Node.js version 18 to fix the error
 
       - name: Install NPM Dependencies
         run: npm install
