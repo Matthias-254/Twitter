@@ -62,23 +62,21 @@
             text-align: center;
         }
     </style>
-
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            <p class="links">Welcome on the posts page! </p>
-            <p class="links" id="links">Create a post here! => <a id="link" href="{{route('posts.create')}}">Create post</a></p>
+            <p class="links">Profile of {{ $user->name }}!</p>
         </h2>
     </x-slot>
 
     <div id="container">
-        @foreach ($posts as $post)
+        @foreach ($user->posts as $post)
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" id="post">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <p><b><a href="{{route('profile', $post->poster->name)}}">{{$post->poster->name}}</a></b> • <span id="date">{{$post->created_at->format('H\ui -\ d/m/y')}}</span></p>
+                        <p><b>{{$post->poster->name}}</b> • <span id="date">{{$post->created_at->format('H\ui -\ d/m/y')}}</span></p>
                         <p id="content">{{$post->content}}</p>    
                         <img src="{{ URL($post->image_path) }}" alt="News logo">
-                        @if($post->user_id == Auth::User()->id || Auth::user()->usertype == 'admin')
+                        @if($post->user_id == Auth::User()->id)
                             <a href="{{ route('posts.edit', $post->id) }}" id="post-edit">Edit Post</a>
                         @endif
                         @if($post->user_id == Auth::User()->id || Auth::user()->usertype == 'admin')
@@ -94,5 +92,4 @@
             </div>
         @endforeach
     </div>
-                
 </x-app-layout>
