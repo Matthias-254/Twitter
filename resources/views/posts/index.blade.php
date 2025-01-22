@@ -61,6 +61,9 @@
         .links{
             text-align: center;
         }
+        #onder{
+            text-decoration: underline;
+        }
     </style>
 
     <x-slot name="header">
@@ -75,7 +78,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8" id="post">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <p><b><a href="{{route('profile', $post->poster->name)}}">{{$post->poster->name}}</a></b> • <span id="date">{{$post->created_at->format('H\ui -\ d/m/y')}}</span></p>
+                        <p><b id="onder"><a href="{{route('profile', $post->poster->name)}}">{{$post->poster->name}}</a></b> • <span id="date">{{$post->created_at->format('H\ui -\ d/m/y')}}</span></p>
                         <p id="content">{{$post->content}}</p>    
                         <img src="{{ URL($post->image_path) }}" alt="News logo">
                         @if($post->user_id == Auth::User()->id || Auth::user()->usertype == 'admin')
