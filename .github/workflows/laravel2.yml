@@ -70,7 +70,7 @@ jobs:
       - name: Run Migrations
         env:
           DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
+          DB_HOST: mysql
           DB_PORT: 3306
           DB_DATABASE: twitter
           DB_USERNAME: sail
@@ -80,7 +80,7 @@ jobs:
       - name: Execute Tests (Unit and Feature Tests) via PHPUnit/Pest
         env:
           DB_CONNECTION: mysql
-          DB_HOST: 127.0.0.1
+          DB_HOST: mysql
           DB_PORT: 3306
           DB_DATABASE: twitter
           DB_USERNAME: sail
