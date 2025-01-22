@@ -18,9 +18,8 @@ class ProfileTest extends TestCase
             ->actingAs($user)
             ->get('/profile');
 
-            $response->assertOk();
-        }
-    
+        $response->assertOk();
+    }
 
     public function test_profile_information_can_be_updated(): void
     {
