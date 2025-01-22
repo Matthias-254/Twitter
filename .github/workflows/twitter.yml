@@ -1,4 +1,4 @@
-name: Twitter
+name: Twittertest
 
 on:
   push:
@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    -  name: Checkout Code
-       uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -25,15 +25,14 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '16'
+        node-version: '18'  # Updated to Node.js version 18
 
     - name: Install NPM Dependencies
       run: npm install
 
+    - name: Build Project
+      run: npm run build
 
-    - name: Install NPM Dependencies
-      run: npm run build  
-    
     - name: Synchronize Files To Server
       uses: easingthemes/ssh-deploy@v2.1.1
       env:
@@ -43,6 +42,7 @@ jobs:
         REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
         REMOTE_USER: ${{ secrets.REMOTE_USER }}
         TARGET: ${{ secrets.REMOTE_PATH }}
+
     - name: Run Remote/Artisan Commands
       uses: easingthemes/ssh-deploy@v2.1.1
       env:

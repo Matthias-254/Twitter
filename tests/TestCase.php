@@ -8,7 +8,7 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
-    protected funtion setUp(); void
+    protected function setUp(): void
     {
         parent::setUp();    
 
