@@ -78,6 +78,9 @@
                         <p><b>{{$post->poster->name}}</b> • <span id="date">{{$post->created_at->format('H\ui -\ d/m/y')}}</span></p>
                         <p id="content">{{$post->content}}</p>    
                         <img src="{{ URL($post->image_path) }}" alt="News logo">
+                        @if($post->user_id == Auth::User()->id || Auth::user()->usertype == 'admin')
+                            <a href="{{ route('posts.edit', $post->id) }}" id="post-edit">Edit Post</a>
+                        @endif
                     </div>
                 </div>
             </div>

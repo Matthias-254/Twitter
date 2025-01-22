@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\Middleware;
 
 class PostController extends Controller
 {
     public static function middleware(): array
     {
         return [
-            'auth'
+            new Middleware('auth', except: ['index']),
         ];
     }
 
@@ -50,6 +51,14 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
+    public function edit($id){
+        $posts = Post::find($id);
+        if($posts->user_id != Auth::user()->id){
+            abort(403);
+        }
+        return view('posts.edit', compact('posts'));
+    }
+
     /**
      * Display the specified resource.
      */
@@ -59,19 +68,24 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $posts = Post::find($id);
+        if($posts->user_id != Auth::user()->id){
+            abort(403);
+        }
+
+        $request->validate([
+            'content' => 'required',
+            'image_path' => 'required'
+        ]);
+
+        $posts->content = $request->content;
+        $posts->image_path = $request->image_path;
+        $posts->save();
+        return redirect()->route('posts.index');
     }
 
     /**
