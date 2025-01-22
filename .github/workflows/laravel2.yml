@@ -46,7 +46,7 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
-                  - name: Set Up MySQL Service
+      - name: Set Up MySQL Service
         run: |
           sudo service mysql start
           # Ensure root user has the correct password
