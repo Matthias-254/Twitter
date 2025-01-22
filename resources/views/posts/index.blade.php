@@ -29,8 +29,9 @@
             margin-right: 5%;
         }
         #content{
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             text-align: left;
+            margin-top: 2vh;
             margin-bottom: 5vh;
             margin-left: 5%;
             margin-right: 5%;
@@ -48,11 +49,24 @@
             margin: 0 auto;
             padding-bottom: 10vh;
         }
+        #links{
+            margin-top: 10px;
+        }
+        #link{
+            background-color: rgb(0, 128, 255);
+            color: white;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        .links{
+            text-align: center;
+        }
     </style>
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            <p>Welcome on the posts page!</p>
+            <p class="links">Welcome on the posts page! </p>
+            <p class="links" id="links">Create a post here! => <a id="link" href="{{route('posts.create')}}">Create post</a></p>
         </h2>
     </x-slot>
 
@@ -62,7 +76,6 @@
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
                         <p><b>{{$post->poster->name}}</b> • <span id="date">{{$post->created_at->format('H\ui -\ d/m/y')}}</span></p>
-                        <h3>{{$post->title}}</h3>
                         <p id="content">{{$post->content}}</p>    
                         <img src="{{ URL($post->image_path) }}" alt="News logo">
                     </div>
