@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public static function middleware(): array
+    {
+        return [
+            'auth'
+        ];
+    }
+
     /**
      * Display a listing of the resource.
      */
