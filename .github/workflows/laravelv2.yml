@@ -1,7 +1,6 @@
 name: CI/CD Pipeline with TDD (Laravel)
 
-# **Continuous Integration**: On every push to the main branch, GitHub Actions will automatically: Install dependencies, Run tests using PHPUnit, Build the Docker image.
-# **Continuous Deployment**: On successful tests, the application will be deployed to a staging environment using Docker containers.
+# **Continuous Integration**: On every push to the main branch, GitHub Actions will automatically: Install dependencies, Run tests using PHPUnit.
 
 on:
   push:
