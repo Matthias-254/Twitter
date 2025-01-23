@@ -1,10 +1,14 @@
-name: CI/CD Pipeline
+name: CI/CD Pipeline with TDD
+
 # **Continuous Integration**: On every push to the main branch, GitHub Actions will automatically: Install dependencies, Run tests using PHPUnit, Build the Docker image.
 # **Continuous Deployment**: On successful tests, the application will be deployed to a staging environment using Docker containers.
+
 on:
   push:
     branches:
-      - main
+      - dev
+      - acc/test
+      - prod
 
 jobs:
   build:
@@ -17,7 +21,7 @@ jobs:
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.4'  # Latest stable version
+        php-version: '8.4'
 
     - name: Install Composer dependencies
       run: composer install
@@ -25,16 +29,16 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '23.6'  # Latest stable version
+        node-version: '23.6'
 
     - name: Install NPM dependencies
       run: npm install
 
 #    - name: Run tests
-#     run: vendor/bin/phpunit
+#      run: vendor/bin/phpunit
 
-    - name: Build Docker image
-      run: docker build -t your-image-name .
+#    - name: Build Docker image
+#     run: docker build -t your-image-name .
 
   deploy:
     needs: build
@@ -45,6 +49,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Deploy to Staging
+    - name: Deploy to Environment
       run: |
-        docker-compose -f docker-compose.staging.yml up -d
+        if [ "${{ github.ref }}" == "refs/heads/dev" ]; then
+          docker-compose -f docker-compose.dev.yml up -d
+        elif [ "${{ github.ref }}" == "refs/heads/acc/test" ]; then
+          docker-compose -f docker-compose.acc.yml up -d
+        elif [ "${{ github.ref }}" == "refs/heads/prod" ]; then
+          docker-compose -f docker-compose.prod.yml up -d
+        fi
+
+
