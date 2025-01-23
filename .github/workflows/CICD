@@ -1,0 +1,50 @@
+name: CI/CD Pipeline
+# **Continuous Integration**: On every push to the main branch, GitHub Actions will automatically: Install dependencies, Run tests using PHPUnit, Build the Docker image.
+# **Continuous Deployment**: On successful tests, the application will be deployed to a staging environment using Docker containers.
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.4'  # Latest stable version
+
+    - name: Install Composer dependencies
+      run: composer install
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '23.6'  # Latest stable version
+
+    - name: Install NPM dependencies
+      run: npm install
+
+    - name: Run tests
+      run: vendor/bin/phpunit
+
+    - name: Build Docker image
+      run: docker build -t your-image-name .
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Deploy to Staging
+      run: |
+        docker-compose -f docker-compose.staging.yml up -d
