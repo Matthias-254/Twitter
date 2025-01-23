@@ -47,12 +47,16 @@ jobs:
           mkdir -p database
           touch database/database.sqlite
 
-      - name: Run Tests
+      - name: Execute Tests (Unit and Feature Tests) via PHPUnit/Pest
         env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/database.sqlite
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        run: php artisan test
+          DB_CONNECTION: mysql
+          DB_HOST: mysql
+          DB_PORT: 3306
+          DB_DATABASE: twitter
+          DB_USERNAME: sail
+          DB_PASSWORD: password
+        run: sudo /etc/init.d/mysql start
+             php artisan test
 
       - name: Install Node.js
         uses: actions/setup-node@v2
