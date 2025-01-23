@@ -40,14 +40,14 @@ jobs:
 #    - name: Build Docker image
 #     run: docker build -t your-image-name .
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    if: success()
+#  deploy:
+ #   needs: build
+#  runs-on: ubuntu-latest
+ #   if: success()
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+ #   steps:
+ #   - name: Checkout code
+ #     uses: actions/checkout@v2
 
     - name: Deploy to Environment
       run: |
