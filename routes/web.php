@@ -1,11 +1,24 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+
+Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
+
+Route::get('/posts/{id}/edit', [PostController::class, 'edit'])->name('posts.edit');
+
+Route::resource('posts', PostController::class);
+
+Route::get('user/{name}', [UserController::class, 'profile'])->name('profile');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

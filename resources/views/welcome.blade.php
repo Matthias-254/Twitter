@@ -34,7 +34,6 @@
                 text-align: center;
                 margin-top: 49vh;
                 font-size: 1rem;
-                background-color: rgb(31, 41, 50);
                 height: 6vh;
             }
             nav{

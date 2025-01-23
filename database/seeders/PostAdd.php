@@ -14,14 +14,12 @@ class PostAdd extends Seeder
     public function run(): void
     {
         Post::create([
-            'title' => 'Welcome to Twitter!',
             'content' => 'The not official Twitter page.',
             'image_path' => 'https://www.marketingfacts.nl/wp-content/uploads/images/imagesblog/f1b5lfuzmwvzs7nslwbn.jpg',
             'user_id' => 1,
         ]);
 
         Post::create([
-            'title' => 'Twitter is the best!',
             'content' => 'Twitter is the best social media platform! #twitter',
             'image_path' => 'https://cdn.pixabay.com/photo/2016/11/01/12/09/twitter-logo-1788039_1280.jpg',
             'user_id' => 2,
