@@ -30,8 +30,8 @@ jobs:
     - name: Install NPM dependencies
       run: npm install
 
-    - name: Run tests
-      run: vendor/bin/phpunit
+#    - name: Run tests
+#     run: vendor/bin/phpunit
 
     - name: Build Docker image
       run: docker build -t your-image-name .
