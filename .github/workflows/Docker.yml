@@ -1,0 +1,84 @@
+name: Docker Laravel CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Build the Laravel application image
+      - name: Build Laravel Docker Image
+        run: docker-compose build
+
+      # Start application and database containers for testing
+      - name: Start Containers
+        run: docker-compose up -d
+
+      # Wait for the database to be ready (e.g., MySQL/PostgreSQL)
+      - name: Wait for Database
+        run: |
+          until docker-compose exec db mysqladmin ping -h"db" --silent; do
+            echo "Waiting for database connection..."
+            sleep 5
+          done
+
+      # Run migrations and seeders (if needed)
+      - name: Run Migrations
+        run: docker-compose exec app php artisan migrate --force
+
+      # Run tests with PHPUnit
+      - name: Run Tests
+        run: docker-compose exec app php artisan test
+
+  push-docker-image:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Log in to DockerHub or another Docker registry
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build and push the Docker image
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/laravel-app:latest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: push-docker-image
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      # Deploy to the server
+      - name: Deploy to Server
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          docker pull ${{ secrets.DOCKER_USERNAME }}/laravel-app:latest
+          docker-compose down
+          docker-compose up -d
+          EOF
