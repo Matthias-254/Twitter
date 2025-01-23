@@ -6,6 +6,7 @@ name: CI/CD Pipeline with TDD
 on:
   push:
     branches:
+      - main
       - dev
       - acc/test
       - prod
@@ -34,20 +35,20 @@ jobs:
     - name: Install NPM dependencies
       run: npm install
 
-#    - name: Run tests
-#      run: vendor/bin/phpunit
+    - name: Run tests
+      run: vendor/bin/phpunit
 
-#    - name: Build Docker image
-#     run: docker build -t your-image-name .
+    - name: Build Docker image
+      run: docker build -t your-image-name .
 
-#  deploy:
- #   needs: build
-#  runs-on: ubuntu-latest
- #   if: success()
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: success()
 
- #   steps:
- #   - name: Checkout code
- #     uses: actions/checkout@v2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
 
     - name: Deploy to Environment
       run: |
