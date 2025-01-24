@@ -25,12 +25,13 @@ jobs:
       fail-fast: true
 
     steps:
+      # Step 1: Checkout Repository
       - uses: actions/checkout@v4
-
+      # Step 2: Set Up PHP
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-
+      # Step 3: Ensure .env File Exists
       - name: Ensure .env File Exists
         run: |
           if [ ! -f .env ]; then
@@ -41,21 +42,21 @@ jobs:
               exit 1
             fi
           fi
-
+      # Step 4: Install PHP Dependencies
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
+      # Step 5: Generate Application Key
       - name: Generate application key
         run: php artisan key:generate
-
+      # Step 6: Set Directory Permissions
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
-
+      # Step 7: Create SQLite Database
       - name: Create Database
         run: |
           mkdir -p database
           touch database/database.sqlite
-
+      # Step 8: Run PHPUnit Tests
       - name: Execute Tests (Unit and Feature Tests) via PHPUnit/Pest
         env:
           DB_CONNECTION: mysql
@@ -66,16 +67,16 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         run: sudo /etc/init.d/mysql start
              php artisan test
-
+      # Step 9: Set Up Node.js
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '18' # Ensure Node.js 17 or higher
           
-
+      # Step 10: Install Node Dependencies
       - name: Install NPM Dependencies
         run: npm install
-
+      # Step 11: Build Frontend Assets
       - name: Build Assets
         run: npm run build  
       
