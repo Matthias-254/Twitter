@@ -5,17 +5,9 @@ name: CI/CD Pipeline with TDD (Laravel)
 # Trigger pipelines on specific branches (dev, test, prod)
 on:
   push:
-    branches:
-      - Apache
-      - breeze-fix
-      - Test
-      - main
+    branches: [ "main" ]
   pull_request:
-    branches:
-      - Apache
-      - breeze-fix
-      - Test
-      - main
+    branches: [ "main" ]
 
 
 jobs:
