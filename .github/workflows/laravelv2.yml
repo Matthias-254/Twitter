@@ -1,4 +1,4 @@
-name: CI/CD Pipeline (Laravel)
+name: CI/CD Pipeline with TDD (Laravel)
 
 # **Continuous Integration**: On every push to the main branch, GitHub Actions will automatically: Install dependencies, Run tests using PHPUnit.
 
@@ -61,19 +61,32 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '18' # Ensure Node.js 17 or higher
-
-  tdd-checks:
-    runs-on: ubuntu-latest
-    needs: laravel-tests
-    steps:
-      # Verify that failing tests are resolved
-      - name: Check for Resolved Tests
-        run: |
-          echo "Ensuring TDD principles are met..."
           
 
       - name: Install NPM Dependencies
         run: npm install
 
       - name: Build Assets
-        run: npm run build
+        run: npm run build  
+
+
+  tdd-checks:
+    runs-on: ubuntu-latest
+    needs: laravel-tests
+    steps:
+      # **TDD Principle: Checking Failing Tests**
+      # This step is a placeholder to enforce TDD, ensuring failing tests were written
+      # and then fixed. In practice, you'd implement logic or require manual review
+      # to confirm adherence to TDD principles.
+      - name: Check for Resolved Tests
+        run: |
+          echo "Ensuring TDD principles are met..."
+          # Custom logic here to enforce failing test resolution (optional)
+
+      # **Code Quality Checks**
+      # These ensure clean code practices, supporting testability and maintainability.
+      - name: Run PHP Code Sniffer
+        run: composer run-script phpcs
+
+      - name: Run ESLint
+        run: npm run lint
