@@ -72,3 +72,4 @@ https://docs.docker.com/
 https://carbon.nesbot.com/docs/
 https://dev.mysql.com/doc/
 https://stackoverflow.com/
+https://chatgpt.com/
