@@ -1,0 +1,105 @@
+name: CI/CD Pipeline with TDD (Laravel)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+
+    steps:
+      # Step 1: Checkout the repository
+      - uses: actions/checkout@v4
+
+      # Step 2: Set up PHP environment
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: xdebug # Enable coverage for test reports
+
+      # Step 3: Ensure .env file exists
+      - name: Ensure .env File Exists
+        run: |
+          if [ ! -f .env ]; then
+            if [ -f .env.example ]; then
+              cp .env.example .env
+            else
+              echo "Missing .env.example file!"
+              exit 1
+            fi
+          fi
+
+      # Step 4: Install dependencies
+      - name: Install Composer Dependencies
+        run: composer install --no-ansi --no-interaction --prefer-dist --optimize-autoloader
+
+      # Step 5: Generate application key
+      - name: Generate Application Key
+        run: php artisan key:generate
+
+      # Step 6: Set directory permissions
+      - name: Set Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
+      # Step 7: Create SQLite database for testing
+      - name: Create SQLite Database
+        run: |
+          mkdir -p database
+          touch database/database.sqlite
+
+      # **TDD Principle: Running Tests**
+      # Tests are run here to verify behavior. Tests should fail initially when written in TDD,
+      # and later be fixed as part of the development process.
+      - name: Run Tests (PHPUnit/Pest)
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/database.sqlite
+        run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.xml
+
+      # **TDD Principle: Test Coverage**
+      # Coverage reports help ensure you are testing the critical paths in your application.
+      - name: Upload Test Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage.xml
+
+      # Step 8: Install Node.js
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      # Step 9: Install NPM dependencies
+      - name: Install NPM Dependencies
+        run: npm install
+
+      # Step 10: Build frontend assets
+      - name: Build Assets
+        run: npm run build
+
+  tdd-checks:
+    runs-on: ubuntu-latest
+    needs: laravel-tests
+    steps:
+      # **TDD Principle: Checking Failing Tests**
+      # This step is a placeholder to enforce TDD, ensuring failing tests were written
+      # and then fixed. In practice, you'd implement logic or require manual review
+      # to confirm adherence to TDD principles.
+      - name: Check for Resolved Tests
+        run: |
+          echo "Ensuring TDD principles are met..."
+          # Custom logic here to enforce failing test resolution (optional)
+
+      # **Code Quality Checks**
+      # These ensure clean code practices, supporting testability and maintainability.
+      - name: Run PHP Code Sniffer
+        run: composer run-script phpcs
+
+      - name: Run ESLint
+        run: npm run lint
