@@ -100,18 +100,18 @@ jobs:
 
            
           
-  deploy-prod:
+  deploy-test:
     runs-on: ubuntu-latest
     needs: laravel-tests
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/Test'
     steps:
-      - name: Deploy to Production
+      - name: Deploy to Testing
         run: |
-          echo "Deploying to Production Environment..."
-          # Add commands or scripts to deploy to production servers
-          ssh -o StrictHostKeyChecking=no ${{ secrets.PROD_USER }}@${{ secrets.PROD_HOST }} << 'EOF'
-          cd /path/to/prod/application
-          git pull origin main
+          echo "Deploying to Testing Environment..."
+          # Add commands or scripts to deploy to test servers
+          ssh -o StrictHostKeyChecking=no ${{ secrets.TEST_USER }}@${{ secrets.TEST_HOST }} << 'EOF'
+          cd /path/to/test/application
+          git pull origin Test
           composer install --no-dev
           php artisan migrate --force
           php artisan cache:clear
