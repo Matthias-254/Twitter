@@ -40,7 +40,7 @@ class PostController extends Controller
     {
         $request->validate([
             'content' => 'required',
-            'image_path' => 'required'
+            'image_path' => 'nullable'
         ]);
 
         $post = new Post();
@@ -79,7 +79,7 @@ class PostController extends Controller
 
         $request->validate([
             'content' => 'required',
-            'image_path' => 'required'
+            'image_path' => 'nullable'
         ]);
 
         $posts->content = $request->content;
