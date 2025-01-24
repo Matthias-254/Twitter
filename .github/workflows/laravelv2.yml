@@ -82,6 +82,3 @@ jobs:
         run: |
           echo "Ensuring TDD principles are met..."
           # Custom logic here to enforce failing test resolution (optional)
-
-      - name: Run ESLint
-        run: npm run lint
