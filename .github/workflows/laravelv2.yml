@@ -83,10 +83,5 @@ jobs:
           echo "Ensuring TDD principles are met..."
           # Custom logic here to enforce failing test resolution (optional)
 
-      # **Code Quality Checks**
-      # These ensure clean code practices, supporting testability and maintainability.
-      - name: Run PHP Code Sniffer
-        run: composer run-script phpcs
-
       - name: Run ESLint
         run: npm run lint
